@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+C:\Users\Matteo Romeo\eclipse-workspace\concerto-project\buffet\.metadata\.plugins\org.eclipse.jdt.core
+2433911824.index
+3079356551.index

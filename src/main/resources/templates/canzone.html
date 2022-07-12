@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link th:href="@{/css/basic.css}" rel="stylesheet">
+
+<body>
+	<nav>
+		<p class="titolo">ROME ARENA</p>
+	</nav>
+	<div th:if="${canzone}" th:object="${canzone}" style="display: flex; justify-content: center; padding: 5%;">
+		<div class="box">
+			<h2 th:text="*{titolo}" style=" text-align: center; margin-top: 0px;"> qui-va-titolo</h2>
+			<div class="info">
+
+				Anno di realizzazione: <span th:text="*{annoDiRealizzazione}">qui-va-anno</span><br>
+
+				Artista: <span>
+					<a href="artista.html" th:href="@{'/artista' + '/' + ${artista.id}}"
+						th:text="|${artista.nome} ${artista.cognome}|"></a>
+				</span>
+			</div>
+		</div>
+		<div class="box">
+			<h2 style=" text-align: center; margin-top: 0px;"> Testo</h2>
+
+			<div class="info">
+				<span style="white-space: pre-line;" th:text="*{testo}">qui-va-descrizione</span>
+			</div>
+		</div>
+		<div class="box">
+			<p><b>I CONCERTI</b></p>
+			<ul>
+				<li th:each="concerto : ${concerti}">
+					<a href="concerto.html" th:href="@{'/concerto' + '/' + ${concerto.id}}" th:text="|${concerto.nome}|"
+						th:value="${concerto.id}"></a>
+				</li>
+			</ul>
+
+		</div>
+	</div>
+	<div th:unless="${canzone}">Non esiste</div>
+	<div class="flex-container2">
+		<div>
+			<form th:if="${credentials.role == 'ADMIN'}" th:action="@{'/admin/eliminaCanzone' + '/' + ${canzone.id}}"
+				method="POST">
+				<button class="sub-button" type="submit" th:text="#{elimina.opera}"></button>
+			</form>
+		</div>
+
+		<div><a href="/default"><button class="sub-button" style="margin-top: 19px;">Home</button></a></div>
+		
+	</div>
+	
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link th:href="@{/css/basic.css}" rel="stylesheet">
+
+<body>
+	<nav>
+		<p class="titolo">ROME ARENA</p>
+	</nav>
+	<div style="display: flex; justify-content: center;">
+		<div class="box" th:if="${concerto}" th:object="${concerto}">
+			<p><b></b></p>
+			<div class="info" style="padding-top: 20px;">
+			Nome: <span th:text="*{nome}">qui-va-nome</span><br>
+			Descrizione: <span th:text="*{descrizione}">qui-va-descrizione</span><br>
+			Sponsor: <span th:text="*{sponsor.nome}"  th:if="${concerto.sponsor!=null}" >qui-va-lo-sponsor</span><br>
+			Data: <span th:text="*{dataConcerto}">qui-va-la-data</span>
+			
+			</div>
+		</div>
+		<div class="box">
+			<p><b>LE CANZONI:</b></p>
+			<ul>
+				<li th:each="canzone : ${canzoniConcerto}">
+					<a href="canzone.html" th:href="@{'/canzone' + '/' + ${canzone.id}}" th:text="|${canzone.titolo}| + |: | +  |${canzone.artista.nome}|"
+						th:value="${canzone.id}"></a>
+				</li>
+			</ul>
+		</div>
+		<br>
+		<div class="box" th:if="${credentials.role == 'ADMIN'}">
+			<div>
+				<p><b>AGGIUNGI CANZONE A CONCERTO</b></p>
+				<form th:action="@{'/admin/addCanzoneAConcerto' + '/' + ${concerto.id}}" method="POST">
+					<select name="canzone" id="canzone">
+						<option value="">---Canzone---</option>
+						<option th:each="canzone : ${canzoni}" th:value="${canzone.id}" th:text="${canzone.titolo}">
+						</option>
+					</select>
+					<div>
+						<button style="border-radius:15px;border:solid 1px ;margin-top: 3px;" type="submit"
+							th:text="#{aggiungi.opera}"></button>
+					</div>
+				</form>
+			</div>
+			<div th:if="${credentials.role == 'ADMIN'}">
+				<p><b>RIMUOVI CANZONE DA CONCERTO</b></p>
+				<form th:action="@{'/admin/rimuoviCanzone' + '/' + ${concerto.id}}" method="POST">
+					<select name="canzone" id="canzone">
+						<option value="">---Canzone---</option>
+						<option th:each="canzone : ${canzoniConcerto}" th:value="${canzone.id}"
+							th:text="${canzone.titolo}"></option>
+					</select>
+					<div>
+						<button style="border-radius:15px;border:solid 1px ;margin-top: 3px;" type="submit"
+							th:text="#{rimuovi.opera}"></button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+
+		<div th:unless="${concerto}">Non esiste</div>
+	</div>
+	<div class="flex-container2">
+		<div>
+			<form th:if="${credentials.role == 'ADMIN'}" th:action="@{'/admin/eliminaConcerto' + '/' + ${concerto.id}}"
+				method="POST">
+				<button class="sub-button" type="submit" th:text="#{elimina.collezione}"></button>
+			</form>
+		</div>
+		<div><a href="/default"><button class="sub-button" style="margin-top: 19px;">Home</button></a></div>
+           <div>
+		<form class="bottone_form" th:if="${iscritto == false}" th:object="${concerto}"
+			th:action="@{'/aggiungiPrenotazione' + '/' + ${concerto.id}}" method="POST"><button class="sub-button"
+				>Iscriviti</button>
+		</form>
+
+		<form class="bottone_form" th:if="${iscritto == true}" th:object="${concerto}"
+			th:action="@{'/eliminaPrenotazione' + '/' + ${concerto.id}}" method="POST"><button class="sub-button"
+				>Disiscriviti</button>
+		</form>
+
+        </div>
+	</div>
+</body>
+
+</html>

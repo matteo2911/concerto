@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link th:href="@{/css/basic.css}" rel="stylesheet">
+
+<head>
+    <title>Homepage</title>
+</head>
+
+<body>
+    <h1 class="titolo">Ciao <span th:text="${credentials.username}">qui-va-username</span>!</h1>
+    <section class="pannello">
+        
+        <div>
+            <span th:if="${credentials.role == 'ADMIN'}">
+                <a href="/admin/adminPanel">
+                    <button class="button" th:text="#{pannello}" >Admin Panel</button>
+                </a>
+            </span>
+        </div>
+        <div>
+            <a href="artista">
+                <button class="button"  th:text="#{elenco.artisti}">Elenco artisti
+                </button>
+            </a>
+        </div>
+
+        <div>
+             <a href="concerto"><button class="button" th:text="#{elenco.collezioni}">Elenco collezioni</button></a>
+        </div>
+
+        <div>
+            <a href="canzoni"><button class="button" th:text="#{elenco.opere}"> Elenco opere</button></a>
+        </div>
+        <div>
+            <a href="iscrizioni"><button class="button" > Elenco iscrizioni</button></a>
+        </div>
+        <div>
+           <form th:action="@{/logout}" method="POST"><button class="button" style=" margin-right:6%;"> Logout</button></form>
+        </div>
+
+    </section>
+</body>
+
+</html>
